@@ -7,6 +7,9 @@ The current schema is:
 - Url: auction URL for the specific sale
 - Title: contains vehicle information at a mininum make and model.
 - Subtitle: Contains final price as well auction end date
+- Model year
+- Price
+- Auction end date
 
 Some Additional data cleaning may be required:
 - parsing of model generation
