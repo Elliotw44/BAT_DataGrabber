@@ -24,11 +24,15 @@ def main():
     #we've loaded all the results now load it into bs4
     soup = bs4.BeautifulSoup(web_driver.page_source, 'html.parser')
     auc_results = soup.find_all("div", class_="filter-group")
+    #pull out json list of all reuslts
     string_json_results = auc_results[0].attrs['data-list']
     result_dict = json.loads(string_json_results)['items']
     final_dict = ETL_flatten(result_dict)
+
+    #write to CSV
     with open('BAT_data.csv', 'w', newline='', encoding='utf-8') as csvfile:
         datawriter = csv.DictWriter(csvfile, fieldnames=[*final_dict[0]])
+        datawriter.writeheader()
         for data in final_dict:
             datawriter.writerow(data)
 
