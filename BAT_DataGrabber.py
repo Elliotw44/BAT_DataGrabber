@@ -1,10 +1,10 @@
 import bs4
 import csv
 import time
-import json
+import re
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import InsecureCertificateException, NoSuchElementException
 
 def main():
     result_url = 'https://bringatrailer.com/porsche/911-gt3/?q=gt3/'
@@ -34,6 +34,7 @@ def main():
         entry['url'] = item.contents[1].attrs['href']
         entry['title'] =item.contents[3].text
         entry['subtitle'] = item.contents[5].text
+        entry = dataEnrichment(entry)
         auction_results.append(entry)
 
 
@@ -45,7 +46,17 @@ def main():
             datawriter.writerow(data)
 
 
-
+def dataEnrichment(input):
+    re_pattern_date = '(\d+\/\d+\/\d+)'
+    re_pattern_price = ' (\$\d+,?\d+) '
+    re_pattern_model_yr = ' ?([12]\d{3}) '
+    if match := re.search(re_pattern_model_yr, input['title'], re.IGNORECASE):
+        input['model year'] = match.group(1)
+    if match := re.search(re_pattern_price, input['subtitle'], re.IGNORECASE):
+        input['final price'] = match.group(1)
+    if match := re.search(re_pattern_date, input['subtitle'], re.IGNORECASE):
+        input['auction end date'] = match.group(1) 
+    return input
 
 if __name__ == '__main__':
     main()
