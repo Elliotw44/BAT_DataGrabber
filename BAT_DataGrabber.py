@@ -9,7 +9,7 @@ from selenium.common.exceptions import InsecureCertificateException, NoSuchEleme
 def main():
     result_url = 'https://bringatrailer.com/porsche/911-gt3/?q=gt3/'
     web_driver = webdriver.Firefox()
-    result_page = web_driver.get(result_url)
+    web_driver.get(result_url)
     load_more = True
     #Find all the URLs we want to parse
     while load_more:
@@ -50,12 +50,17 @@ def dataEnrichment(input):
     re_pattern_date = '(\d+\/\d+\/\d+)'
     re_pattern_price = ' (\$\d+,?\d+) '
     re_pattern_model_yr = ' ?([12]\d{3}) '
+    re_pattern_sold = '(Sold)'
     if match := re.search(re_pattern_model_yr, input['title'], re.IGNORECASE):
         input['model year'] = match.group(1)
     if match := re.search(re_pattern_price, input['subtitle'], re.IGNORECASE):
         input['final price'] = match.group(1)
     if match := re.search(re_pattern_date, input['subtitle'], re.IGNORECASE):
         input['auction end date'] = match.group(1) 
+    if match := re.search(re_pattern_sold, input['subtitle'], re.IGNORECASE):
+        input['sold'] = True
+    else:
+        input['sold'] = False
     return input
 
 if __name__ == '__main__':

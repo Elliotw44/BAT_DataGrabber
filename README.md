@@ -10,6 +10,7 @@ The current schema is:
 - Model year
 - Price
 - Auction end date
+- Sold
 
 Some Additional data cleaning may be required:
 - parsing of model generation
