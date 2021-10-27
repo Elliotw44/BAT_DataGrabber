@@ -16,9 +16,7 @@ Bring A Trailer holds a trove of data on how certain models are performing. You 
 ## Some Additional data cleaning may be required:
 - parsing of model generation
 - parsing of model trims
-- removing  non-vehicle item sales from results
-- parsing of price and auction end date
-
+- removing non-vehicle item sales from results
 
 ## Usage:
 1. download python file
