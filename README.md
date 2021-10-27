@@ -13,7 +13,7 @@ Bring A Trailer holds a trove of data on how certain models are performing. You 
 - Auction end date
 - Sold
 
-## Some Additional data cleaning may be required:
+## Additional data cleaning may be required:
 - parsing of model generation
 - parsing of model trims
 - removing non-vehicle item sales from results
