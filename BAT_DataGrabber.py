@@ -4,6 +4,7 @@ import time
 import re
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
 from selenium.common.exceptions import InsecureCertificateException, NoSuchElementException
 
 def main():
@@ -15,7 +16,8 @@ def main():
     while load_more:
         try:
             #click the load more button if it exists
-            elem = web_driver.find_element_by_xpath("/html/body/div[2]/div[2]/div/div/div[7]/div[3]/div[4]/button")
+            #"/html/body/div[2]/div[2]/div/div/div[8]/div[3]/div[4]/button"
+            elem = web_driver.find_element(By.XPATH, "/html/body/div[2]/div[2]/div/div/div[7]/div[3]/div[4]/button")
             elem.click()
             time.sleep(1)
         except NoSuchElementException:
