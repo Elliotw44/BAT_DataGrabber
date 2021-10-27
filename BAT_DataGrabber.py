@@ -7,7 +7,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import InsecureCertificateException, NoSuchElementException
 
 def main():
-    result_url = 'https://bringatrailer.com/porsche/911-gt3/?q=gt3/'
+    result_url = input("Input the BaT Result URL:")
     web_driver = webdriver.Firefox()
     web_driver.get(result_url)
     load_more = True
@@ -15,7 +15,7 @@ def main():
     while load_more:
         try:
             #click the load more button if it exists
-            elem = web_driver.find_element_by_xpath("/html/body/div[2]/div[2]/div/div/div[8]/div[3]/div[4]/button")
+            elem = web_driver.find_element_by_xpath("/html/body/div[2]/div[2]/div/div/div[7]/div[3]/div[4]/button")
             elem.click()
             time.sleep(1)
         except NoSuchElementException:
