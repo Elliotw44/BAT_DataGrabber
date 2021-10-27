@@ -30,3 +30,4 @@ Bring A Trailer holds a trove of data on how certain models are performing. You 
 
 ## Example Data analysis
 - https://public.tableau.com/app/profile/elliotw/viz/BaTGT3Market/BaTGT3Market?publish=yes
+- https://public.tableau.com/views/997BaTAuctionResults/997BaTHistoricalinfo?:language=en-US&publish=yes&:display_count=n&:origin=viz_share_link
