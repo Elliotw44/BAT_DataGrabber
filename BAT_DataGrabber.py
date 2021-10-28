@@ -54,7 +54,7 @@ def data_enrichment(input):
     re_pattern_sold = '(Sold)'
     if match := re.search(re_pattern_model_yr, input['title'], re.IGNORECASE):
         input['model year'] = match.group(1)
-    if 'Porsche' in input['title'] and '911' in input['title']:
+    if 'Porsche' in input['title']:
         Trim_Enrichment_911(input)
     if match := re.search(re_pattern_price, input['subtitle'], re.IGNORECASE):
         input['final price'] = match.group(1)
@@ -69,7 +69,10 @@ def data_enrichment(input):
     
 def Trim_Enrichment_911(input):
     re_pattern_911_models = '911 (\w* ?[GTSarg4R ]{0,7})'
-    if match := re.search(re_pattern_911_models, input['title'], re.IGNORECASE):
+    re_pattern_GT_models = '(GT[2|3] ?[RST]{0,2})'
+    if match := re.search(re_pattern_GT_models, input['title'], re.IGNORECASE):
+        input['model trim'] = match.group(1).strip()
+    elif match := re.search(re_pattern_911_models, input['title'], re.IGNORECASE):
         input['model trim'] = match.group(1).strip()
     return input
 
