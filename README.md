@@ -1,17 +1,18 @@
 # BaT Data Grabber
 Bring A Trailer(BAT) is a popular online auction website for enthusiast cars. This traverse auction results and saves them as CSV
 
-Bring A Trailer holds a trove of data on how certain models are performing. You can use this data to all track trends over time. The goal of this project is to traverse the website of a given model and collect all sales history into a CSV file for later analysis. 
+Bring A Trailer holds a trove of data on how certain models are performing. You can use this data to track trends over time. The goal of this project is to traverse the website of a given model and collect all sales history into a CSV file for later analysis.
 
 
 ## Schema
-- Url: auction URL for the specific sale
+- URL: auction URL for the specific sale
 - Title: contains vehicle information at a mininum make and model.
 - Subtitle: Contains final price as well auction end date
 - Model year
 - Price
 - Auction end date
 - Sold
+- Model Trim(only for Porshce 911 BaT model pages)
 
 ## Additional data cleaning may be required:
 - parsing of model generation
