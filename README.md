@@ -12,12 +12,13 @@ Bring A Trailer holds a trove of data on how certain models are performing. You 
 - Price
 - Auction end date
 - Sold
+- Mileage
+- Transmission
 - Model Trim(only for Porshce 911 BaT model pages)
 
 ## Additional data cleaning may be required:
 - parsing of model generation
 - parsing of model trims
-- removing non-vehicle item sales from results
 
 ## Usage:
 1. download python file
