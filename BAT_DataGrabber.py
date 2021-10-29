@@ -1,6 +1,7 @@
 import bs4
 import csv
 import time
+import requests
 import re
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -37,8 +38,9 @@ def main():
         entry['subtitle'] = item.contents[5].text
 
         entry = data_enrichment(entry)
-        if len(entry) == 4:
+        if len(entry) < 6:
             continue  #not an auction result
+        entry = auction_page_enrichment(entry)
         auction_results.append(entry)
 
 
@@ -49,6 +51,7 @@ def main():
         for data in auction_results:
             datawriter.writerow(data)
 
+#parse out model yr, auction date, price, sold
 def data_enrichment(input):
     re_pattern_date = '(\d+\/\d+\/\d+)'
     re_pattern_price = ' (\$\d+,?\d+) '
@@ -57,7 +60,7 @@ def data_enrichment(input):
     if match := re.search(re_pattern_model_yr, input['title'], re.IGNORECASE):
         input['model year'] = match.group(1)
     if 'Porsche' in input['title'] and ('911' in input['title'] or 'GT3' in input['title'] or 'GT2' in input['title']):
-        Trim_Enrichment_911(input)
+        trim_enrichment_911(input)
     if match := re.search(re_pattern_price, input['subtitle'], re.IGNORECASE):
         input['final price'] = match.group(1)
     if match := re.search(re_pattern_date, input['subtitle'], re.IGNORECASE):
@@ -68,8 +71,8 @@ def data_enrichment(input):
         input['sold'] = False
     return input
     
-    
-def Trim_Enrichment_911(input):
+#parse out 911 trim information    
+def trim_enrichment_911(input):
     re_pattern_911_models = '911 (\w* ?[GTSarg4R ]{0,7})'
     re_pattern_GT_models = '(GT[2|3] ?[RST]{0,2})'
     if match := re.search(re_pattern_GT_models, input['title'], re.IGNORECASE):
@@ -77,6 +80,24 @@ def Trim_Enrichment_911(input):
     elif match := re.search(re_pattern_911_models, input['title'], re.IGNORECASE):
         input['model trim'] = match.group(1).strip()
     return input
+
+#parse out transmission and mileage information
+def auction_page_enrichment(input):
+    re_pattern_manual = 'Speed Manual'
+    re_pattern_miles = '[0-9k] Miles'
+    auction_url = input['url']
+    auction_page = requests.get(auction_url)
+    auction_soup = bs4.BeautifulSoup(auction_page.content, 'html.parser')
+    raw_results = auction_soup.find_all('li', class_="listings-essentials-item")
+    input['transmission'] = "Automatic"
+    for listing_es in raw_results:
+        listing_content = listing_es.text
+        if match := re.search(re_pattern_manual, listing_content, re.IGNORECASE):
+            input['transmission'] = "Manual"
+        if match := re.search(re_pattern_miles, listing_content, re.IGNORECASE):
+            input['miles'] = listing_content
+    return input
+
 
 
 if __name__ == '__main__':
