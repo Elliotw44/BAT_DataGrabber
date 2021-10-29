@@ -35,7 +35,10 @@ def main():
         entry['url'] = item.contents[1].attrs['href']
         entry['title'] =item.contents[3].text
         entry['subtitle'] = item.contents[5].text
+
         entry = data_enrichment(entry)
+        if len(entry) == 4:
+            continue  #not an auction result
         auction_results.append(entry)
 
 
@@ -46,7 +49,6 @@ def main():
         for data in auction_results:
             datawriter.writerow(data)
 
-
 def data_enrichment(input):
     re_pattern_date = '(\d+\/\d+\/\d+)'
     re_pattern_price = ' (\$\d+,?\d+) '
@@ -54,7 +56,7 @@ def data_enrichment(input):
     re_pattern_sold = '(Sold)'
     if match := re.search(re_pattern_model_yr, input['title'], re.IGNORECASE):
         input['model year'] = match.group(1)
-    if 'Porsche' in input['title']:
+    if 'Porsche' in input['title'] and ('911' in input['title'] or 'GT3' in input['title'] or 'GT2' in input['title']):
         Trim_Enrichment_911(input)
     if match := re.search(re_pattern_price, input['subtitle'], re.IGNORECASE):
         input['final price'] = match.group(1)
