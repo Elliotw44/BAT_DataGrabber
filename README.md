@@ -33,4 +33,4 @@ Bring A Trailer holds a trove of data on how certain models are performing. You 
 ## Example Data analysis
 - [Porsche GT3 Analysis](https://public.tableau.com/views/BaTGT3Market/BaTGT3Market?:language=en-US&:display_count=n&:origin=viz_share_link)
 - [Porsche 997 BaT Analysis](https://public.tableau.com/views/997BaTAuctionResults/997BaTResults?:language=en-US&:display_count=n&:origin=viz_share_link)
-- [BMW M5 BaT Anylsis](https://public.tableau.com/views/BMWM5BaTAuctionResults/BmwM5BaTAnalysis?:language=en-US&:display_count=n&:origin=viz_share_link)
+- [BMW M5 BaT Analysis](https://public.tableau.com/views/BMWM5BaTAuctionResults/BmwM5BaTAnalysis?:language=en-US&:display_count=n&:origin=viz_share_link)
