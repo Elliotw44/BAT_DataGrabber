@@ -2,6 +2,7 @@ import bs4
 import csv
 import time
 import requests
+from multiprocessing import Pool
 import re
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -40,15 +41,21 @@ def main():
         entry = data_enrichment(entry)
         if len(entry) < 6:
             continue  #not an auction result
-        entry = auction_page_enrichment(entry)
         auction_results.append(entry)
+
+
+    #Parse all Auction URLs using ThreadPool
+    pool = Pool(13)
+    final_records = pool.map(auction_page_enrichment, auction_results)
+    pool.close()
+    pool.join()
 
 
     #write to CSV
     with open('BAT_data.csv', 'w', newline='', encoding='utf-8') as csvfile:
-        datawriter = csv.DictWriter(csvfile, fieldnames=[*auction_results[0]])
+        datawriter = csv.DictWriter(csvfile, fieldnames=[*final_records[0]])
         datawriter.writeheader()
-        for data in auction_results:
+        for data in final_records:
             datawriter.writerow(data)
 
 #parse out model yr, auction date, price, sold
