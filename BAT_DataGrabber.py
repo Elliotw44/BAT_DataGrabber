@@ -92,6 +92,7 @@ def trim_enrichment_911(input):
 def auction_page_enrichment(input):
     re_pattern_manual = 'Speed Manual'
     re_pattern_miles = '[0-9k] Miles'
+    mileage_set = False
     auction_url = input['url']
     auction_page = requests.get(auction_url)
     auction_soup = bs4.BeautifulSoup(auction_page.content, 'html.parser')
@@ -101,8 +102,9 @@ def auction_page_enrichment(input):
         listing_content = listing_es.text
         if match := re.search(re_pattern_manual, listing_content, re.IGNORECASE):
             input['transmission'] = "Manual"
-        if match := re.search(re_pattern_miles, listing_content, re.IGNORECASE):
+        if  mileage_set == False and re.search(re_pattern_miles, listing_content, re.IGNORECASE):
             input['miles'] = listing_content
+            mileage_set = True
     return input
 
 
