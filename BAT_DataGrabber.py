@@ -111,6 +111,7 @@ def numeric_milage_enrichment(input):
         re_pattern_numeric_miles = '(\d{1,3}[,k ]\d{0,3}) ?miles'
         input = input.lower()
         input = input.replace(" indicated", "")
+        input = input.replace(" chassis", "")
         if match := re.search(re_pattern_numeric_miles, input, re.IGNORECASE):
             numeric_str = match.group(1).strip()
         is_k_in_content = "k" in numeric_str
