@@ -91,7 +91,7 @@ def trim_enrichment_911(input):
 #parse out transmission and mileage information
 def auction_page_enrichment(input):
     re_pattern_manual = 'Speed Manual'
-    re_pattern_miles = '[0-9k] Miles'
+    re_pattern_miles = 'Miles'
     mileage_set = False
     auction_url = input['url']
     auction_page = requests.get(auction_url)
@@ -103,9 +103,24 @@ def auction_page_enrichment(input):
         if match := re.search(re_pattern_manual, listing_content, re.IGNORECASE):
             input['transmission'] = "Manual"
         if  mileage_set == False and re.search(re_pattern_miles, listing_content, re.IGNORECASE):
-            input['miles'] = listing_content
+            input['miles'] = numeric_milage_enrichment(listing_content)
             mileage_set = True
     return input
+
+def numeric_milage_enrichment(input):
+        re_pattern_numeric_miles = '(\d{1,3}[,k ]\d{0,3}) ?miles'
+        input = input.lower()
+        input = input.replace(" indicated", "")
+        if match := re.search(re_pattern_numeric_miles, input, re.IGNORECASE):
+            numeric_str = match.group(1).strip()
+        is_k_in_content = "k" in numeric_str
+        numeric_str = numeric_str.replace("k", "")
+        numeric_str = numeric_str.replace(",", "")
+        numeric_mileage = int(numeric_str)
+        if is_k_in_content:
+            numeric_mileage = numeric_mileage * 1000
+        return numeric_mileage
+
 
 
 
